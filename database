@@ -1,0 +1,5 @@
+db.categories.insert([
+    { name: 'Phones' },
+    { name: 'Real Estate' },
+    { name: 'Cars'}
+])
