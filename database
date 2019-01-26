@@ -12,3 +12,10 @@ db.items.insert({
     thumbnail: 'https://www.91-img.com/pictures/112809-v1-nokia-3310-new-mobile-phone-large-1.jpg'
 })
     
+db.users.insert({
+    email: 'vale@vale.com',
+    password: '$2a$04$E.NyekfBiDSMVtCUxta1E.frCSJTkEpnLMgHucI2c7/dL7tVB/JRe',
+    first_name: 'Valentin',
+    last_name: 'Stjepic',
+    address: 'Rade Uhlika 108, Tuzla'
+})
