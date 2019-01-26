@@ -40,7 +40,6 @@
             </div>
         </nav>
                 
-        <!-- Begin page content -->
         <div ng-view id="main-view">
         </div>
     </body>
@@ -66,8 +65,23 @@
                 })
 
             $scope.setCategory = (category) => {
-                console.log('setCategory')
+                $scope.selectedCategory = category
+                loadItems()
             }
+
+            function loadItems() {
+                var url = '/api/items/'
+                if ($scope.selectedCategory) {
+                    url += $scope.selectedCategory._id
+                }
+
+                $http.get(url)
+                    .then((response) => {
+                        $scope.items = response.data
+                    })
+            }
+
+            loadItems()
         })
     </script>
 </html>

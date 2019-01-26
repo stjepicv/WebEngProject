@@ -3,3 +3,12 @@ db.categories.insert([
     { name: 'Real Estate' },
     { name: 'Cars'}
 ])
+
+db.items.insert({
+    name: 'Nokia 3310',
+    category_id: db.categories.findOne({ name: 'Phones' })._id,
+    description: 'Best phone ever',
+    price: 50,
+    thumbnail: 'https://www.91-img.com/pictures/112809-v1-nokia-3310-new-mobile-phone-large-1.jpg'
+})
+    
