@@ -81,6 +81,29 @@
                     })
             }
 
+            $scope.cartItems = []
+
+            $scope.addToCart = (item) => {
+                $scope.cartItems.push(item)
+            }
+
+            $scope.removeFromCart = (index) => {
+                $scope.cartItems.splice(index, 1)
+            }
+
+            $scope.clearCart = () => {
+                $scope.cartItems = []
+            }
+
+            $scope.getCartTotal = () => {
+                var sum = 0
+                for (var i = 0; i < $scope.cartItems.length; i++) {
+                    sum += $scope.cartItems[i].price
+                }
+
+                return sum
+            }
+
             loadItems()
         })
     </script>

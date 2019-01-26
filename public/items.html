@@ -35,7 +35,25 @@
                     <h3>{{item.name}}</h3>
                     <p>{{item.description}}</p>
                     <h4>Price: ${{item.price}}</h4>
-                    <button type="button" class="btn btn-primary btn-sm">Add to Cart</button>
+                    <button ng-click="addToCart(item)" type="button" class="btn btn-primary btn-sm">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3" ng-hide="cartItems.length == 0">
+            <div class="card">
+                <div class="card-header">
+                    Cart
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li ng-repeat="item in cartItems track by $index" class="list-group-item">
+                        <span class="float-left">{{item.name}}</span>
+                        <span class="float-right">${{item.price}}</span>
+                    </li>
+                </ul>
+                <div class="card-footer">
+                    <h5>Total: ${{getCartTotal()}}</h5>
+                    <button ng-click="clearCart()" type="button" class="btn btn-primary">Clear Cart</button>
                 </div>
             </div>
         </div>
