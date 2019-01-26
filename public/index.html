@@ -10,6 +10,10 @@
             #main-view {
                 margin-top: 56px;
             }
+
+            .clickable {
+                cursor: pointer;
+            }
         </style>
     </head>
     
@@ -51,6 +55,19 @@
                 .when('/orders', {
                     templateUrl : 'orders.html'
                 })
+            })
+            
+
+
+        app.controller('itemsController', ($scope, $http) => {
+            $http.get('/api/categories')
+                .then((response) => {
+                    $scope.categories = response.data
+                })
+
+            $scope.setCategory = (category) => {
+                console.log('setCategory')
+            }
         })
     </script>
 </html>

@@ -1,3 +1,13 @@
-<div class="container">
-    Items
+<div class="container" ng-controller="itemsController">
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-header">
+                Categories
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item clickable" ng-click="setCategory()">All categories</li>
+                <li ng-repeat="category in categories" ng-click="setCategory(category)" class="list-group-item clickable" data-category-id="{{category._id}}">{{category.name}}</li>
+            </ul>
+        </div>
+    </div>
 </div>
