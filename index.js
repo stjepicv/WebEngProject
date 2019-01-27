@@ -88,17 +88,31 @@ app.post('/api/order', checkJwt, (req, res) => {
         res.sendStatus(400)
     } else {
         const itemIds = req.body.items.map(id => new ObjectID(id))
+        var itemsCount = {}
+        for (i in itemIds) {
+            if (itemsCount[itemIds[i]]) {
+                itemsCount[itemIds[i]]++
+            } else {
+                itemsCount[itemIds[i]] = 1
+            }
+        }
+
         db.collection('items').find({ _id: { $in: itemIds }}).toArray()
             .then((items) => {
                 var total = 0
+                var orderItems = []
                 for (i in items) {
-                    total += items[i].price
+                    const itemCount = itemsCount[items[i]._id]
+                    total += items[i].price * itemCount
+                    for (var j = 0; j < itemCount; j++) {
+                        orderItems.push(items[i])
+                    }
                 }
 
                 const order = {
                     user_id: new ObjectID(req.jwt_payload._id),
                     datetime: new Date(),
-                    items: items,
+                    items: orderItems,
                     total: total
                 }
 
