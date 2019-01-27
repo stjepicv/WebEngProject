@@ -113,8 +113,6 @@
                 $scope.password = ''
             }
 
-            $scope.showLoginDialog()
-
             $scope.login = (email, password) => {
                 $http.post('/api/user/login', { email: email, password: password })
                     .then((response) => {
@@ -126,8 +124,24 @@
                     })
             }
 
+            $scope.getHeadersConfig = () => {
+                return {
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + window.localStorage.getItem('jwt')
+                    }
+                }
+            }
+
             $scope.logout = () => {
                 window.localStorage.clear()
+                $scope.isLoggedIn = false
+            }
+
+            if (window.localStorage.getItem('jwt')) {
+                $scope.isLoggedIn = true
+            } else {
                 $scope.isLoggedIn = false
             }
         })
@@ -177,6 +191,27 @@
                 }
 
                 return sum
+            }
+
+            $scope.checkout = () => {
+                if ($scope.isLoggedIn == false) {
+                    alert('You need to log in before you checkout')
+                    $scope.showLoginDialog()
+                } else if (confirm('Are you sure you want to make this order')) {
+                    var itemIds = []
+                    for (i in $scope.cartItems) {
+                        itemIds.push($scope.cartItems[i]._id)
+                    }
+
+                    $http.post('/api/order', { items: itemIds }, $scope.getHeadersConfig())
+                        .then(() => {
+                            alert('Order created')
+                            $scope.clearCart()
+                        })
+                        .catch((err) => {
+                            alert('An error occured')
+                        })
+                }
             }
 
             loadItems()
