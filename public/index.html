@@ -103,14 +103,19 @@
             
 
         app.controller('mainController', ($scope, $http) => {
-            $scope.showLoginDialog = () => {
+            var loginCallback
+
+            $scope.showLoginDialog = (callback) => {
                 $scope.loginVisible = true
+                loginCallback = callback
             }
 
             $scope.hideLoginDialog = () => {
                 $scope.loginVisible = false
                 $scope.email = ''
                 $scope.password = ''
+
+                delete loginCallback
             }
 
             $scope.login = (email, password) => {
@@ -118,6 +123,9 @@
                     .then((response) => {
                         window.localStorage.setItem('jwt', response.data.token)
                         $scope.isLoggedIn = true
+                        if (loginCallback) {
+                            loginCallback()
+                        }
                         $scope.hideLoginDialog()
                     }, (response) => {
                         alert('Login unsuccessful')
@@ -215,6 +223,22 @@
             }
 
             loadItems()
+        })
+
+
+        app.controller('ordersController', ($scope, $http) => {
+            function loadOrders() {
+                $http.get('/api/order', $scope.getHeadersConfig())
+                .then((response) => {
+                    $scope.orders = response.data
+                })
+            }
+
+            if (!$scope.isLoggedIn) {
+                $scope.showLoginDialog(loadOrders)
+            } else {
+                loadOrders()
+            }
         })
     </script>
 </html>
