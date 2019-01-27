@@ -101,6 +101,7 @@ app.post('/api/order', checkJwt, (req, res) => {
             .then((items) => {
                 var total = 0
                 var orderItems = []
+
                 for (i in items) {
                     const itemCount = itemsCount[items[i]._id]
                     total += items[i].price * itemCount

@@ -8,7 +8,7 @@
 
         <style>
             #main-view {
-                margin-top: 56px;
+                margin-top: 72px;
             }
 
             .clickable {
@@ -31,22 +31,19 @@
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item" ng-class="{ active: location == '/' }">
                         <a class="nav-link" href="#!">Shop Home</a>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#!orders">Link</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <li class="nav-item" ng-if="isLoggedIn">
+                        <a class="nav-link" href="#!orders" ng-class="{ active: location == '/orders' }">Orders</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ng-hide" ng-show="!isLoggedIn">
+                <ul class="navbar-nav" ng-if="!isLoggedIn">
                     <li class="nav-item">
                         <span ng-click="showLoginDialog()" class="nav-link clickable">Login</span>
                     </li>
                 </ul>
-                <ul class="navbar-nav ng-hide" ng-show="isLoggedIn">
+                <ul class="navbar-nav" ng-if="isLoggedIn">
                     <li class="nav-item">
                         <span ng-click="logout()" class="nav-link clickable">Logout</span>
                     </li>
@@ -102,8 +99,11 @@
             })
             
 
-        app.controller('mainController', ($scope, $http) => {
+        app.controller('mainController', ($scope, $rootScope, $http, $location) => {
             var loginCallback
+
+            $scope.location = $location.path()
+            $rootScope.$on('$routeChangeSuccess', () => $scope.location = $location.path())
 
             $scope.showLoginDialog = (callback) => {
                 $scope.loginVisible = true
@@ -145,6 +145,7 @@
             $scope.logout = () => {
                 window.localStorage.clear()
                 $scope.isLoggedIn = false
+                $location.path('/')
             }
 
             if (window.localStorage.getItem('jwt')) {
@@ -155,7 +156,7 @@
         })
 
 
-        app.controller('itemsController', ($scope, $http) => {
+        app.controller('itemsController', ($scope, $http, $location) => {
             $http.get('/api/categories')
                 .then((response) => {
                     $scope.categories = response.data

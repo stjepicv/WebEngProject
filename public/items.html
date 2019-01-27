@@ -5,8 +5,15 @@
         text-align: center;
     }
 
-    .item-thumbnail{
+    .item-thumbnail {
         height: 100%;
+    }
+
+    .item-row {
+        margin-bottom: 16px;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        padding: 4px;
     }
 </style>
 
@@ -18,8 +25,8 @@
                     Categories
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item clickable" ng-click="setCategory()">All categories</li>
-                    <li ng-repeat="category in categories" ng-click="setCategory(category)" class="list-group-item clickable" data-category-id="{{category._id}}">{{category.name}}</li>
+                    <li class="list-group-item clickable" ng-class="{ active: selectedCategory == null }" ng-click="setCategory()">All categories</li>
+                    <li ng-repeat="category in categories" ng-class="{ active: selectedCategory == category }" ng-click="setCategory(category)" class="list-group-item clickable" data-category-id="{{category._id}}">{{category.name}}</li>
                 </ul>
             </div>
         </div>
