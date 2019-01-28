@@ -34,11 +34,14 @@
                     <li class="nav-item" ng-class="{ active: location == '/' }">
                         <a class="nav-link" href="#!">Shop Home</a>
                     </li>
-                    <li class="nav-item" ng-if="isLoggedIn">
-                        <a class="nav-link" href="#!orders" ng-class="{ active: location == '/orders' }">Orders</a>
+                    <li class="nav-item" ng-if="isLoggedIn" ng-class="{ active: location == '/orders' }">
+                        <a class="nav-link" href="#!orders">Orders</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav" ng-if="!isLoggedIn">
+                    <li class="nav-item" ng-class="{ active: location == '/register' }">
+                        <a class="nav-link" href="#!register">Register</a>
+                    </li>
                     <li class="nav-item">
                         <span ng-click="showLoginDialog()" class="nav-link clickable">Login</span>
                     </li>
@@ -95,6 +98,9 @@
                 })
                 .when('/orders', {
                     templateUrl : 'orders.html'
+                })
+                .when('/register', {
+                    templateUrl: 'register.html'
                 })
             })
             
@@ -239,6 +245,24 @@
                 $scope.showLoginDialog(loadOrders)
             } else {
                 loadOrders()
+            }
+        })
+
+        
+        app.controller('registerController', ($scope, $http, $location) => {
+            $scope.submitForm = () => {
+                if ($scope.registerForm.$valid) {
+                    $http.post('/api/user/register', $scope.user)
+                        .then((response) => {
+                            alert('Registration successful, plase log in')
+                            $location.path('/')
+                            $scope.showLoginDialog()
+                        }, (response) => {
+                            alert('Registration unsuccessful')
+                        })
+                } else {
+                    alert('Please fill in all fields properly')
+                }
             }
         })
     </script>

@@ -56,6 +56,28 @@ app.post('/api/user/login', (req, res) => {
     })
 })
 
+app.post('/api/user/register', (req, res) => {
+    var user = req.body
+    if (!user.first_name || !user.last_name || !user.email || !user.password) {
+        res.sendStatus(400)
+    } else {
+        db.collection('users').findOne({ email: user.email})
+            .then((existingUser) => {
+                if (existingUser) {
+                    throw new Error('User exists')
+                } else {
+                    return bcrypt.hash(user.password, 10)
+                }
+            })
+            .then((hashed) => {
+                user.password = hashed
+                return db.collection('users').insertOne(user)
+            })
+            .then(() => res.sendStatus(200))
+            .catch(() => res.sendStatus(500))
+    }
+})
+
 
 app.get('/api/categories', (req, res) => {
     db.collection('categories').find().toArray((err, data) => {

@@ -1,7 +1,8 @@
 db.categories.insert([
     { name: 'Phones' },
     { name: 'Real Estate' },
-    { name: 'Cars'}
+    { name: 'Cars'},
+    { name: 'Pets'}
 ])
 
 db.items.insert({
@@ -10,6 +11,38 @@ db.items.insert({
     description: 'Best phone ever',
     price: 50,
     thumbnail: 'https://www.91-img.com/pictures/112809-v1-nokia-3310-new-mobile-phone-large-1.jpg'
+})
+
+db.items.insert({
+    name: 'Honda Civic',
+    category_id: db.categories.findOne({ name: 'Cars' })._id,
+    description: 'Car in pristine condition',
+    price: 1499,
+    thumbnail: 'https://www.kingmotorsports.com/blog/image.axd?picture=2013%2f2%2f859610_558498864160980_691228657_o.jpg'
+})
+
+db.items.insert({
+    name: 'Stene sarplaninca',
+    category_id: db.categories.findOne({ name: 'Pets' })._id,
+    description: 'Dresiran',
+    price: 200,
+    thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Sardog.jpg'
+})
+
+db.items.insert({
+    name: 'Opel Kadett E',
+    category_id: db.categories.findOne({ name: 'Cars' })._id,
+    description: 'Half price',
+    price: 700,
+    thumbnail: 'https://polovni-delovi.com/Opel-Kadett-Suza-Razni-Delovi_14962523441168993914_slika_1469524096.jpg'
+})
+
+db.items.insert({
+    name: 'House',
+    category_id: db.categories.findOne({ name: 'Real Estate' })._id,
+    description: 'House in a calm neighbourhood',
+    price: 25000,
+    thumbnail: 'https://vignette.wikia.nocookie.net/gtawiki/images/e/e2/JohnsonHouse-GTASA-Exterior.jpg/revision/latest?cb=20090309174441'
 })
     
 db.users.insert({
